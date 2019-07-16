@@ -1,0 +1,39 @@
+# basic makefile
+here=$(shell pwd)
+
+.LIBPATTERNS ="'lib%.so lib%.a' "
+
+CXX   = gcc
+FC		= g77
+F90		= f90
+RM		= rm -f
+CC		= g++
+
+LD            = gcc
+LDFLAGS       = -O
+SOFLAGS       = -shared
+
+
+CXXLIBDIRS	= -L$(HOME)/.local/lib
+CXXLIBS		= -lxx_usb -lm -lusb -Wl,"-rpath=$(HOME)/.local/lib" -std=c++11
+INCLUDEDIRS 	= -I$(HOME)/.local/include -I$(usr)/include/root
+
+CXXFLAGS      	= -O -Wall -fPIC -g $(INCLUDEDIRS)
+
+CFLAGS		+= $(INCLUDEDIRS) $(SOFLAG)
+CFLAGS		+= $(CXXLIBDIRS) $(CXXLIBS)
+LDFLAGS		= $(CXXFLAGS)
+
+OBJ = ./vme_simple_test
+
+main: 
+	$(CXX) $(CXXFLAGS) vme_simple_test.cc \
+	$(CXXLIBS) $(CXXLIBDIRS) -o $(OBJ) 
+	@echo "Done"
+
+
+
+clean:
+	$(RM) $(OBJ) 
+
+
